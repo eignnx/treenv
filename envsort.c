@@ -14,6 +14,7 @@ void strarrcpy(char **dest, const char **src);
 void strarrfree(char **arr, size_t len);
 
 void display_env_fwd(char **env);
+void display_env_bwd(char **env);
 
 #define Ell  " └──"
 #define Tee  " ├──"
@@ -35,7 +36,10 @@ int main()
     // Sort the array alphabetically.
     qsort(envcpy, env_count(), sizeof(char *), cmp);
 
-    display_env_fwd(envcpy);
+    if (getenv("FORMAT") != NULL)
+        display_env_bwd(envcpy);
+    else
+        display_env_fwd(envcpy);
 
     // Free each string in `envcpy`.
     strarrfree(envcpy, env_count());
@@ -93,4 +97,17 @@ void display_env_fwd(char **env)
         printf("\n");
     }
 }
+
+void display_env_bwd(char **env)
+{
+    for (size_t i = 0; i < env_count(); i++) {
+        char *name = strtok(env[i], "=");
+        char *value = strtok(NULL, "=");
+
+        printf_yellow("%s\n", value);
+        printf("%s", Ell);
+        printf_cyan("%s\n\n", name);
+    }
+}
+
 
