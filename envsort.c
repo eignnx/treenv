@@ -13,11 +13,11 @@ size_t env_count();
 void strarrcpy(char **dest, const char **src);
 void strarrfree(char **arr, size_t len);
 
-void display_env(char **env);
+void display_env_fwd(char **env);
 
-#define Ell  "└───"
-#define Tee  "├───"
-#define Pipe "│   "
+#define Ell  " └──"
+#define Tee  " ├──"
+#define Pipe " │  "
 #define Space "    "
 
 #define string char *
@@ -35,7 +35,7 @@ int main()
     // Sort the array alphabetically.
     qsort(envcpy, env_count(), sizeof(char *), cmp);
 
-    display_env(envcpy);
+    display_env_fwd(envcpy);
 
     // Free each string in `envcpy`.
     strarrfree(envcpy, env_count());
@@ -72,17 +72,24 @@ void strarrfree(char **arr, size_t len)
         free(*arr++);
 }
 
-void display_env(char **env)
+void display_env_fwd(char **env)
 {
     for (int i = 0; i < env_count(); i++) {
+
+        // Split line into (name, value) across '='.
         char *name = strtok(env[i], "=");
         printf_cyan("%s\n", name);
+
+        // Split value across ':' for PATH variable.
         char *value = strtok(NULL, ":");
-        while (value) {
-            printf(Ell);
+        char *next;
+        do {
+            next = strtok(NULL, ":");
+            printf("%s", (next) ? Tee : Ell);
             printf_yellow("%s\n", value);
-            value = strtok(NULL, ":");
-        }
+            value = next;
+        } while (next);
+
         printf("\n");
     }
 }
