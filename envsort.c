@@ -29,8 +29,6 @@ int cmp(const void *a, const void *b)
 
 int main()
 {
-    printf("There are %zu environment variables defined.\n", env_count());
-
     char **envcpy = malloc(env_count() * sizeof(*envcpy));
     strarrcpy(envcpy, environ);
 
