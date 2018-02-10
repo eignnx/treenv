@@ -1,7 +1,8 @@
-out/envsort: envsort.o
+out/treenv: treenv.o
 	gcc --std=c11 -g -Wall $^ -o $@
 
-envsort.o: envsort.c terminal_colors.h
+treenv.o: treenv.c terminal_colors.h
 
 clean:
 	rm -rfv out/*
+	rm *.o
