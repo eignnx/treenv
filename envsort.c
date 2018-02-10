@@ -36,6 +36,7 @@ int main()
     // Sort the array alphabetically.
     qsort(envcpy, env_count(), sizeof(char *), cmp);
 
+    // Read env variable FORMAT, make sure return val is non-null.
     char *format = getenv("FORMAT");
     format = (format) ? format : "[empty]";
 
