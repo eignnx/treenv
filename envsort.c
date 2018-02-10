@@ -36,7 +36,10 @@ int main()
     // Sort the array alphabetically.
     qsort(envcpy, env_count(), sizeof(char *), cmp);
 
-    if (getenv("FORMAT") != NULL)
+    char *format = getenv("FORMAT");
+    format = (format) ? format : "[empty]";
+
+    if (strcmp(format, "REVERSE") == 0)
         display_env_bwd(envcpy);
     else
         display_env_fwd(envcpy);
